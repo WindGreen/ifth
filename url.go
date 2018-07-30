@@ -1,7 +1,9 @@
 package ifth
 
 import (
+	"log"
 	"time"
+
 	"github.com/globalsign/mgo/bson"
 )
 
@@ -17,9 +19,9 @@ type Url struct {
 	Slot         string    `json:"slot"`
 	Origin       string    `json:"origin"`
 	RedirectType string    `json:"redirect_type" bson:"redirect_type"`
-	CreatedTime   time.Time `json:"created_time" bson:"created_time"`
+	CreatedTime  time.Time `json:"created_time" bson:"created_time"`
 	ExpiresIn    int       `json:"expires_in" bson:"expires_in"`
-	Count        int       `json:"count"`
+	Count        int64     `json:"count"`
 }
 
 func NewUrl(origin string, duplicated bool) *Url {
@@ -31,22 +33,40 @@ func NewUrl(origin string, duplicated bool) *Url {
 		}
 		return url
 	}
-	u := Url{
+	url := &Url{
 		Slot:         SlotGenerator.Get(),
 		Origin:       origin,
 		RedirectType: Redirect301,
-		CreatedTime:   time.Now(),
+		CreatedTime:  time.Now(),
 		ExpiresIn:    0,
 		Count:        0,
 	}
 	for {
+		log.Println(url.Slot)
 		// check slot exist
-		if !SlotExist(u.Slot) {
+		if !SlotExist(url.Slot) {
 			break
 		}
-		u.Slot = SlotGenerator.Get()
+		url.Slot = SlotGenerator.Get()
 	}
-	return &u
+	url.Save()
+	return url
+}
+
+func NewCustomUrl(slot, origin string) *Url {
+	if SlotExist(slot) {
+		return nil
+	}
+	url := &Url{
+		Slot:         slot,
+		Origin:       origin,
+		RedirectType: Redirect301,
+		CreatedTime:  time.Now(),
+		ExpiresIn:    0,
+		Count:        0,
+	}
+	url.Save()
+	return url
 }
 
 func FindUrlByOrigin(origin string) (*Url, error) {
@@ -66,6 +86,8 @@ func FindUrlBySlot(slot string) (*Url, error) {
 	if err != nil {
 		return nil, err
 	}
+	url.Count++
+	url.Save()
 	return &url, nil
 }
 
@@ -93,11 +115,17 @@ func SlotExist(slot string) bool {
 	return false
 }
 
-func (u *Url)Expired()bool{
-	if u.ExpiresIn>0{
-		if int(time.Now().Sub(u.CreatedTime).Seconds()) > u.ExpiresIn{
-			return false
+func (u *Url) Expired() bool {
+	if u.ExpiresIn > 0 {
+		if int(time.Now().Sub(u.CreatedTime).Seconds()) > u.ExpiresIn {
+			return true
 		}
 	}
-	return true
+	return false
+}
+
+func (u *Url) Save() error {
+	session := GetMgo()
+	_, err := session.DB("ifth").C("url").Upsert(bson.M{"slot": u.Slot}, u)
+	return err
 }
