@@ -1,0 +1,27 @@
+pipeline:
+  build-www:
+    image: plugins/docker
+    registry: hub.zhizhu-inc.com:10084
+    repo: hub.zhizhu-inc.com:10084/fith-www
+    tags:
+      - 1.0.0
+    dockerfile: www/Dockerfile
+    insecure: true
+  build-url:
+    image: plugins/docker
+    registry: hub.zhizhu-inc.com:10084
+    repo: hub.zhizhu-inc.com:10084/fith-url
+    tags:
+      - 1.0.0
+    dockerfile: url/Dockerfile
+    insecure: true
+  dev-run:
+    image: appleboy/drone-ssh
+    host: 149.28.39.113
+    username: root
+    secrets: [ ssh_password ]
+    script:
+      - docker network create ifth
+      - docker run --name=mongo -v /data/mongo:/data/db -d mongo
+      - docker run --name=ifth-www -d hub.zhizhu-incc.com:10084/fith-www
+      - docker run --name=ifth-url -d hub.zhizhu-incc.com:10084/fith-url

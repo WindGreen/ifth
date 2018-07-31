@@ -22,7 +22,7 @@ func main() {
 	}
 
 	server := http.Server{
-		Addr: ":8081",
+		Addr: ":80",
 	}
 	// http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("../templates/js"))))
 	// http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("../templates/css"))))

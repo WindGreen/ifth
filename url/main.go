@@ -10,7 +10,7 @@ import (
 
 func main() {
 	ifth.InitSlotGenerator()
-	_, err := ifth.InitMgo("localhost")
+	_, err := ifth.InitMgo("mongo")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -18,7 +18,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/:slot", GetHandle)
 
-	router.Run(":8080")
+	router.Run(":80")
 }
 
 func GetHandle(c *gin.Context) {
