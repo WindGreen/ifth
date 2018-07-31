@@ -18,7 +18,7 @@
   <body>
     <div class="container" style="height: 100%;">
         <div class="row align-items-center" style="height: 100%;">
-            <form class="col-md-12" method="POST" action="create.html">
+            <form class="col-md-12" method="POST" action="">
                 <div class="form-group">
                     <label class="sr-only" for="exampleFormControlInput1">域名</label>
                     <div class="input-group">
@@ -42,17 +42,17 @@
                         <option>5</option>
                     </select>
                 </div> -->
-                <button type="submit" class="btn btn-outline-success btn-block">生成短域名</button>
+                <button type="submit" class="btn btn-outline-success btn-block">生成短地址</button>
+                <br>
                 {{ if not .Ok}}
                     <div class="alert alert-danger" role="alert">
                         {{.Tips}}
                     </div>
+                {{ else }}
+                    <div class="alert alert-success text-center" role="alert">
+                        <a href="{{.Url}}" class="link" target="blank">{{.Url}}</a>
+                    </div>
                 {{ end }}
-                <div class="form-group">
-                    {{ if .Ok}}
-                    <a href="{{.Url}}" class="link" target="blank">{{.Url}}</a>
-                    {{end}}
-                </div>
             </form>
         </div>
     </div>

@@ -5,7 +5,9 @@ import (
 	"html/template"
 	"ifth"
 	"log"
+	"net"
 	"net/http"
+	"regexp"
 )
 
 type UrlResponse struct {
@@ -16,7 +18,7 @@ type UrlResponse struct {
 
 func main() {
 	ifth.InitSlotGenerator()
-	_, err := ifth.InitMgo("localhost")
+	_, err := ifth.InitMgo("mongo")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,7 +36,6 @@ func main() {
 		http.Redirect(w, r, "/index.html", http.StatusSeeOther)
 	})
 	http.HandleFunc("/index.html", homeHandle)
-	http.HandleFunc("/create.html", createHandle)
 	log.Println("Start listening...")
 	err = server.ListenAndServe()
 	if err != nil {
@@ -44,8 +45,15 @@ func main() {
 
 func homeHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "text/html")
-	t := template.Must(template.ParseFiles("./templates/index.html"))
-	t.Execute(w, nil)
+	if r.Method == "POST" {
+		createHandle(w, r)
+	} else {
+		var data UrlResponse
+		data.Ok = true
+		data.Url = "http://www.ifth.net"
+		t := template.Must(template.ParseFiles("./templates/index.html"))
+		t.Execute(w, data)
+	}
 }
 
 func createHandle(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +62,7 @@ func createHandle(w http.ResponseWriter, r *http.Request) {
 	uri := fmt.Sprintf("%s://%s", r.FormValue("protocol"), r.FormValue("url"))
 	if !IsUrl(uri) {
 		response.Ok = false
-		response.Tips = "url不符合规范"
+		response.Tips = "url不符合规范或域名无法解析"
 	} else {
 		url := ifth.NewUrl(uri, false)
 		if url == nil {
@@ -62,7 +70,7 @@ func createHandle(w http.ResponseWriter, r *http.Request) {
 			response.Tips = "创建失败，请联系管理员"
 		} else {
 			response.Ok = true
-			response.Url = fmt.Sprintf("http://localhost:8080/%s", url.Slot)
+			response.Url = fmt.Sprintf("http://ifth.net/%s", url.Slot)
 		}
 	}
 	w.Header().Set("Content-type", "text/html")
@@ -71,20 +79,11 @@ func createHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func IsUrl(url string) bool {
-	if len(url) < 12 {
+	//根据dns判断可用
+	regexp.MatchString(`(?<=://)[a-zA-Z\.0-9]+(?=\/)`, url)
+	_, err := net.LookupIP(domain)
+	if err != nil {
 		return false
 	}
 	return true
-	response, err := http.Get(url)
-	if err != nil {
-		// log.Println(err)
-		return false
-	}
-	// defer response.Body.Close()
-	// body, _ := ioutil.ReadAll(response.Body)
-	// log.Println(string(body))
-	if response.StatusCode >= 200 && response.StatusCode < 400 {
-		return true
-	}
-	return false
 }
