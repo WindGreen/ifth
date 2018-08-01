@@ -2,7 +2,7 @@
 
 This is a service to generate short url for long url.
 
-[中文文档](https://github.com/WindGreen/ifth/blob/master/README_zh-cn.md)
+[中文文档](README_zh-cn.md)
 
 Demo：http://www.ifth.net
 

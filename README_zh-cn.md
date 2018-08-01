@@ -2,11 +2,11 @@
 
 这是一个提供短链接和短地址的服务，可以用来给应用生成短地址。
 
-[English Document](https://github.com/WindGreen/ifth/blob/master/README.md)
+[English Document](README.md)
 
-演示地址：http://www.fith.net
+演示地址：http://www.ifth.net
 
-![example](https://raw.githubusercontent.com/WindGreen/ifth/master/ifth-www.png)
+![example](ifth-www.png)
 
 ## 功能
 
