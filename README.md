@@ -2,11 +2,11 @@
 
 This is a service to generate short url for long url.
 
-[中文文档](./Readme_zh-cn.md)
+[中文文档](Readme_zh-cn.md)
 
 Demo：http://www.fith.net
 
-![example](/home/yqfwind/go/src/ifth/ifth-www.png)
+![example](ifth-www.png)
 
 ## Features
 
