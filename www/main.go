@@ -18,7 +18,7 @@ type UrlResponse struct {
 
 func main() {
 	ifth.InitSlotGenerator()
-	_, err := ifth.InitMgo("mongo")
+	_, err := ifth.InitMgo("172.17.0.2")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,10 +80,15 @@ func createHandle(w http.ResponseWriter, r *http.Request) {
 
 func IsUrl(url string) bool {
 	//根据dns判断可用
-	regexp.MatchString(`(?<=://)[a-zA-Z\.0-9]+(?=\/)`, url)
-	_, err := net.LookupIP(domain)
-	if err != nil {
-		return false
+	reg := regexp.MustCompile(`http[s]?:\/\/([\w\.-]+)`)
+	match := reg.FindAllStringSubmatch(url, 2)
+	if len(match) > 0 && len(match[0]) > 1 {
+		domain := match[0][1]
+		_, err := net.LookupIP(domain)
+		if err != nil {
+			return false
+		}
+		return true
 	}
-	return true
+	return false
 }
