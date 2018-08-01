@@ -24,3 +24,9 @@ _testmain.go
 *.test
 *.prof
 
+vendor
+
+.drone.yml
+
+
+
