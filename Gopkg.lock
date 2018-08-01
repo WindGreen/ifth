@@ -2,20 +2,14 @@
 
 
 [[projects]]
-  branch = "master"
-  name = "github.com/gin-contrib/sse"
-  packages = ["."]
-  revision = "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
-
-[[projects]]
   name = "github.com/gin-gonic/gin"
   packages = [
     ".",
     "binding",
     "render"
   ]
-  revision = "d459835d2b077e44f7c9b453505ee29881d5d12d"
-  version = "v1.2"
+  revision = "50e7e427300a7eeeb299a4cd5bc1ebfa04d48528"
+  version = "v0.5"
 
 [[projects]]
   branch = "master"
@@ -30,14 +24,9 @@
   revision = "113d3961e7311526535a1ef7042196563d442761"
 
 [[projects]]
-  name = "github.com/golang/protobuf"
-  packages = ["proto"]
-  revision = "5a0f697c9ed9d68fef0116532c6e05cfeae00e55"
-
-[[projects]]
-  name = "github.com/mattn/go-isatty"
+  name = "github.com/julienschmidt/httprouter"
   packages = ["."]
-  revision = "57fdcb988a5c543893cc61bce354a6e24ab70022"
+  revision = "00ce1c6a267162792c367acc43b1681a884e1872"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -51,31 +40,9 @@
   revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
   version = "v1.2.0"
 
-[[projects]]
-  name = "github.com/ugorji/go"
-  packages = ["codec"]
-  revision = "c88ee250d0221a57af388746f5cf03768c21d6e2"
-
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/sys"
-  packages = ["unix"]
-  revision = "bd9dbc187b6e1dacfdd2722a87e83093c2d7bd6e"
-
-[[projects]]
-  name = "gopkg.in/go-playground/validator.v8"
-  packages = ["."]
-  revision = "5f57d2222ad794d0dffb07e664ea05e2ee07d60c"
-  version = "v8.18.1"
-
-[[projects]]
-  name = "gopkg.in/yaml.v2"
-  packages = ["."]
-  revision = "a5b47d31c556af34a302ce5d659e6fea44d90de0"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "137e3b8c370319f27d0913fcf3bacaacc281f23035e9c76d8615bac2c2ea5c92"
+  inputs-digest = "8d28cdac9c41283f168603216de4471c6d4f7d27ca116caa6cf7029279c47b88"
   solver-name = "gps-cdcl"
   solver-version = 1
