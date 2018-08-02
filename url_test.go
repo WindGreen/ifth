@@ -19,3 +19,13 @@ func TestNewUrl(t *testing.T) {
 	url := NewUrl("http://test.tickpay.org", false)
 	log.Println(url)
 }
+
+func BenchmarkNewUrl(b *testing.B) {
+	InitTest()
+	b.RunParallel(func(pb *testing.PB){
+		for pb.Next() {
+			_ = NewUrl("http://test.tickpay.org", false)
+		}
+	})
+}
+
