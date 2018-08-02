@@ -1,0 +1,11 @@
+mongodb:
+  host: localhost
+# www service
+www:
+  home: http://localhost:8080
+  port: 8080
+# url service
+url:
+  base: http://localhost/%s
+  length: 3
+  unique: true

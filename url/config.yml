@@ -1,0 +1,9 @@
+mongodb:
+  host: localhost
+# www service
+www:
+  home: http://localhost:8080
+# url service
+url:
+  base: http://localhost/%s
+  port: 80

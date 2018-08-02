@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"html/template"
 	"ifth"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 	"regexp"
+
+	"gopkg.in/yaml.v2"
 )
 
 type UrlResponse struct {
@@ -16,15 +19,26 @@ type UrlResponse struct {
 	Url  string
 }
 
+var config Config
+
 func main() {
-	ifth.InitSlotGenerator()
-	_, err := ifth.InitMgo("172.17.0.2")
+	data, err := ioutil.ReadFile("config.yml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ifth.InitSlotGenerator(config.Url.Length)
+	_, err = ifth.InitMgo(config.MongoDB.Host)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	server := http.Server{
-		Addr: ":80",
+		Addr: fmt.Sprintf(":%d", config.WWW.Port),
 	}
 	// http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("../templates/js"))))
 	// http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("../templates/css"))))
@@ -50,7 +64,7 @@ func homeHandle(w http.ResponseWriter, r *http.Request) {
 	} else {
 		var data UrlResponse
 		data.Ok = true
-		data.Url = "http://www.ifth.net"
+		data.Url = config.WWW.Home
 		t := template.Must(template.ParseFiles("./templates/index.html"))
 		t.Execute(w, data)
 	}
@@ -64,13 +78,13 @@ func createHandle(w http.ResponseWriter, r *http.Request) {
 		response.Ok = false
 		response.Tips = "url不符合规范或域名无法解析"
 	} else {
-		url := ifth.NewUrl(uri, false)
+		url := ifth.NewUrl(uri, config.Url.Unique)
 		if url == nil {
 			response.Ok = false
 			response.Tips = "创建失败，请联系管理员"
 		} else {
 			response.Ok = true
-			response.Url = fmt.Sprintf("http://ifth.net/%s", url.Slot)
+			response.Url = fmt.Sprintf(config.Url.Base, url.Slot)
 		}
 	}
 	w.Header().Set("Content-type", "text/html")

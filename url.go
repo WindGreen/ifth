@@ -1,7 +1,6 @@
 package ifth
 
 import (
-	"log"
 	"time"
 
 	"github.com/globalsign/mgo/bson"
@@ -24,9 +23,9 @@ type Url struct {
 	Count        int64     `json:"count"`
 }
 
-func NewUrl(origin string, duplicated bool) *Url {
+func NewUrl(origin string, unique bool) *Url {
 	//check origin exist
-	if !duplicated && OriginExist(origin) {
+	if unique && OriginExist(origin) {
 		url, err := FindUrlByOrigin(origin)
 		if err != nil {
 			return nil
@@ -42,7 +41,6 @@ func NewUrl(origin string, duplicated bool) *Url {
 		Count:        0,
 	}
 	for {
-		log.Println(url.Slot)
 		// check slot exist
 		if !SlotExist(url.Slot) {
 			break

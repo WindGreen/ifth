@@ -71,5 +71,5 @@ MongoDB Connection
 
 Length ID for default generation
 
-Difference ID for one url
+Different ID for one url
 

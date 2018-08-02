@@ -10,8 +10,8 @@ const hLetters = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789" //hu
 
 var SlotGenerator *Slot
 
-func InitSlotGenerator() {
-	SlotGenerator = NewSlot()
+func InitSlotGenerator(length int) {
+	SlotGenerator = NewSlot(length)
 	SlotGenerator.Run()
 }
 
@@ -21,9 +21,9 @@ type Slot struct {
 	Length   int
 }
 
-func NewSlot() *Slot {
+func NewSlot(length int) *Slot {
 	s := &Slot{
-		Length:   6,
+		Length:   length,
 		Humanity: false,
 	}
 	s.queue = make(chan string, 10)
