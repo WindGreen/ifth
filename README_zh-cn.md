@@ -28,18 +28,24 @@
 - 网站服务
 
   ```shell
-  cd www && go build && ./www
+  go get github.com/WindGreen/ifth
+  cd www
+  dep ensure
+  chmod +x url && ./url
   ```
 
-  
+  默认监听8080端口，通过 [配置](#配置)更改
 
 - 短链接服务
 
   ```shell
-  cd url && go build && ./url
+  go get github.com/WindGreen/ifth
+  cd url
+  dep ensure
+  chmod +x www && ./www
   ```
 
-  
+  默认监听80端口，通过 [配置](#配置)更改
 
 ### Docker
 
@@ -63,13 +69,47 @@
 
 ## 配置
 
-DNS配置
+- 网站服务
 
-服务器端口
+```yaml
+mongodb:
+  host: localhost
+# www service
+www:
+  home: http://localhost:8080
+  port: 8080
+# url service
+url:
+  base: http://localhost/%s
+  length: 3
+  unique: true
+```
 
-数据库配置
+**www.home**: 网站首页
 
-地址ID长度
+**www.port**: 网站的端口
 
-是否允许给相同地址生成多个短地址
+**url.base**: 短链接的地址，%s表示短链接ID
+
+**url.length**: 短链接ID长度
+
+**url.unique**: TRUE or FALSE. FALSE 意味着一个长地址可以有多个短地址与之对应
+
+
+
+- 短地址服务
+
+```yaml
+mongodb:
+  host: localhost
+# www service
+www:
+  home: http://localhost:8080
+# url service
+url:
+  base: http://localhost/%s
+  port: 80
+```
+
+**url.port**: 短地址服务监听的端口
 

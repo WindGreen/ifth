@@ -28,18 +28,24 @@ Service is depended on MongoDB, please install first. [Mongo Installation](https
 - Web page
 
   ```shell
-  cd www && go build && ./www
+  go get github.com/WindGreen/ifth
+  cd www
+  dep ensure
+  chmod +x url && ./url
   ```
 
-  
+  this will listen the default port:8080, to change it by [Configuration](#Configuration)
 
 - Url Service
 
   ```shell
-  cd url && go build && ./url
+  go get github.com/WindGreen/ifth
+  cd url
+  dep ensure
+  chmod +x www && ./www
   ```
 
-  
+  this will listen the default port:80, to change it by [Configuration](#Configuration)
 
 ### Docker
 
@@ -61,15 +67,49 @@ Service is depended on MongoDB, please install first. [Mongo Installation](https
 
   
 
-## Configration
+## Configuration
 
-DNS tips
+- Web page
 
-Server Port
+```yaml
+mongodb:
+  host: localhost
+# www service
+www:
+  home: http://localhost:8080
+  port: 8080
+# url service
+url:
+  base: http://localhost/%s
+  length: 3
+  unique: true
+```
 
-MongoDB Connection
+**www.home**: the web page url
 
-Length ID for default generation
+**www.port**: the web service listened on
 
-Different ID for one url
+**url.base**: the short url refers to, %s is the slot
+
+**url.length**: the slot length
+
+**url.unique**: TRUE or FALSE. FALSE means  one url can has many short url linked to it.
+
+
+
+- Url Service
+
+```yaml
+mongodb:
+  host: localhost
+# www service
+www:
+  home: http://localhost:8080
+# url service
+url:
+  base: http://localhost/%s
+  port: 80
+```
+
+**url.port**: the url service listened on
 
