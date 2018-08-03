@@ -27,8 +27,8 @@ script:
   - docker build -t "$IMAGE2":"$VERSION" -f www/Dockerfile . 
   - docker images
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
-  - docker tag "$IMAGE1":latest
-  - docker tag "$IMAGE2":latest
+  - docker tag "$IMAGE1":"$VERSION" "$IMAGE1":latest
+  - docker tag "$IMAGE2":"$VERSION" "$IMAGE2":latest
   - docker push "$IMAGE1":"$VERSION"
   - docker push "$IMAGE1":latest
   - docker push "$IMAGE2":"$VERSION"

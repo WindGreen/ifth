@@ -56,7 +56,7 @@ Service is depended on MongoDB, please install first. [Mongo Installation](https
   ```shell
   docker network create ifth
   docker run -d --name mongo --network ifth mongo
-  docker run -d -p 80:80 --network ifth yqfwind/ifth-www:1.0.0
+  docker run -d -p 80:80 --network ifth yqfwind/ifth-www:latest
   ```
 
 - Url Service
@@ -64,7 +64,7 @@ Service is depended on MongoDB, please install first. [Mongo Installation](https
   ```shell
   docker network create ifth
   docker run -d --name mongo --network ifth mongo
-  docker run -d -p 80:80 --network ifth yqfwind/ifth-url:1.0.0
+  docker run -d -p 80:80 --network ifth yqfwind/ifth-url:latest
   ```
 
   
