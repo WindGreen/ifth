@@ -14,9 +14,11 @@ import (
 )
 
 type UrlResponse struct {
-	Ok   bool
-	Tips string
-	Url  string
+	Ok      bool
+	Tips    string
+	Url     string
+	Hottest []ifth.Url
+	Newest  []ifth.Url
 }
 
 var config Config
@@ -40,12 +42,7 @@ func main() {
 	server := http.Server{
 		Addr: fmt.Sprintf(":%d", config.WWW.Port),
 	}
-	// http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("../templates/js"))))
-	// http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("../templates/css"))))
-	// http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("../templates/images"))))
-	// http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-	// 	http.ServeFile(w, r, "../templates/favicon.ico")
-	// })
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/index.html", http.StatusSeeOther)
 	})
@@ -65,8 +62,19 @@ func homeHandle(w http.ResponseWriter, r *http.Request) {
 		var data UrlResponse
 		data.Ok = true
 		data.Url = config.WWW.Home
+		data.Hottest, _ = ifth.FindHottestUrls(10)
+		for i, url := range data.Hottest {
+			data.Hottest[i].Url = fmt.Sprintf(config.Url.Base, url.Slot)
+		}
+		data.Newest, _ = ifth.FindNewestUrls(10)
+		for i, url := range data.Newest {
+			data.Newest[i].Url = fmt.Sprintf(config.Url.Base, url.Slot)
+		}
 		t := template.Must(template.ParseFiles("./templates/index.html"))
-		t.Execute(w, data)
+		err := t.Execute(w, data)
+		if err != nil {
+			log.Println(err)
+		}
 	}
 }
 

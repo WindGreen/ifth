@@ -17,7 +17,7 @@
   </head>
   <body>
     <div class="container" style="height: 100%;">
-        <div class="row align-items-center" style="height: 100%;">
+        <div class="row align-items-end" style="height: 60%;">
             <form class="col-md-12" method="POST" action="">
                 <div class="form-group">
                     <label class="sr-only" for="exampleFormControlInput1">域名</label>
@@ -42,7 +42,7 @@
                         <option>5</option>
                     </select>
                 </div> -->
-                <button type="submit" class="btn btn-outline-success btn-block">生成短地址</button>
+                <button type="submit" class="btn btn-outline-success btn-block">Generate</button>
                 <br>
                 {{ if not .Ok}}
                     <div class="alert alert-danger" role="alert">
@@ -50,11 +50,31 @@
                     </div>
                 {{ else }}
                     <div class="alert alert-success text-center" role="alert">
-                        <a href="{{.Url}}" class="link" target="blank">{{.Url}}</a>
+                        <a href="{{.Url}}" target="blank">{{.Url}}</a>
                     </div>
                 {{ end }}
             </form>
         </div>
+        {{ if .Newest }}
+        <div class="row align-items-start  justify-content-md-center" style="height: 40%;">
+            <div class="md-col-6">
+                <h4 class="text-center">Newest</h4>
+                <ul>
+                    {{range .Newest}}
+                    <li><a href="{{.Url}}" target="blank">{{.Url}}</a></li>
+                    {{end}}
+                </ul>
+            </div>
+            <div class="md-col-6">
+                <h4 class="text-center">Hottest</h4>
+                <ul>
+                    {{range .Hottest}}
+                    <li><a href="{{.Url}}" target="blank">[{{.Count}}]{{.Url}}</a>></li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+        {{end}}
     </div>
 
     <!-- Optional JavaScript -->

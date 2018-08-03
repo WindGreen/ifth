@@ -1,6 +1,7 @@
 package ifth
 
 import (
+	"log"
 	"time"
 
 	"github.com/globalsign/mgo/bson"
@@ -21,6 +22,7 @@ type Url struct {
 	CreatedTime  time.Time `json:"created_time" bson:"created_time"`
 	ExpiresIn    int       `json:"expires_in" bson:"expires_in"`
 	Count        int64     `json:"count"`
+	Url          string    `json:"url" bson:"-"`
 }
 
 func NewUrl(origin string, unique bool) *Url {
@@ -89,6 +91,26 @@ func FindUrlBySlot(slot string) (*Url, error) {
 	return &url, nil
 }
 
+func FindHottestUrls(limit int) ([]Url, error) {
+	session := GetMgo()
+	var urls []Url
+	err := session.DB("ifth").C("url").Find(bson.M{}).Sort("-count").Limit(limit).All(&urls)
+	if err != nil {
+		return nil, err
+	}
+	return urls, nil
+}
+
+func FindNewestUrls(limit int) ([]Url, error) {
+	session := GetMgo()
+	var urls []Url
+	err := session.DB("ifth").C("url").Find(bson.M{}).Sort("-_id").Limit(limit).All(&urls)
+	if err != nil {
+		return nil, err
+	}
+	return urls, nil
+}
+
 func OriginExist(origin string) bool {
 	session := GetMgo()
 	ct, err := session.DB("ifth").C("url").Find(bson.M{"origin": origin}).Count()
@@ -125,5 +147,6 @@ func (u *Url) Expired() bool {
 func (u *Url) Save() error {
 	session := GetMgo()
 	_, err := session.DB("ifth").C("url").Upsert(bson.M{"slot": u.Slot}, u)
+	log.Println(err)
 	return err
 }
