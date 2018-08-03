@@ -2,7 +2,7 @@ sudo: true
 
 branches:
   only:
-    -master
+    - master
 
 services:
   - docker

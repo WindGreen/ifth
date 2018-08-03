@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/WindGreen/ifth.svg?branch=master)](https://travis-ci.org/WindGreen/ifth)
+
 # Short Url Service
 
 This is a service to generate short url for long url.

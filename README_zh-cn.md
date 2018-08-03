@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/WindGreen/ifth.svg?branch=master)](https://travis-ci.org/WindGreen/ifth)
+
 # 短链接服务
 
 这是一个提供短链接和短地址的服务，可以用来给应用生成短地址。
