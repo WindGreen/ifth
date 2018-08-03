@@ -13,6 +13,10 @@ env:
     - IMAGE2="$DOCKER_USER""/ifth-www"
     - VERSION=1.0.1
 
+before_script:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - dep ensure
+
 script:
   - echo $IMAGE1 $IMAGE2
   - docker build -t "$IMAGE1":"$VERSION" -f url/Dockerfile . 
