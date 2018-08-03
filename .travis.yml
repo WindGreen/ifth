@@ -1,0 +1,26 @@
+sudo: true
+
+services:
+  - docker
+
+env:
+  global:
+    - IMAGE1="$DOCKER_USER"/ifth-url
+    - IMAGE2="$DOCKER_$USER"/ifth-www
+    - VERSION=1.0.1
+
+script:
+  - echo $IMAGE1 $IMAGE2
+  - docker build -t "$IMAGE1":"$VERSION" -f url/Dockerfile . 
+  - docker build -t "$IMAGE2":"$VERSION" -f www/Dockerfile . 
+  - docker images
+  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWOR"
+  - docker tag "$IMAGE1":latest
+  - docker tag "$IMAGE2":latest
+  - docker push "$IMAGE1":"$VERSION"
+  - docker push "$IMAGE1":latest
+  - docker push "$IMAGE2":"$VERSION"
+  - docker push "$IMAGE2":latest
+
+after_script:
+  - docker images | grep ifth
