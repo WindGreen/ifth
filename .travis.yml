@@ -15,8 +15,10 @@ env:
     - IMAGE2="$DOCKER_USER""/ifth-www"
     - VERSION=1.0.1
 
-before_script:
+before_install:
   - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+install:
   - dep ensure
 
 script:
