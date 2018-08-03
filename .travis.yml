@@ -9,8 +9,8 @@ services:
 
 env:
   global:
-    - IMAGE1="$DOCKER_USER"/ifth-url
-    - IMAGE2="$DOCKER_USER"/ifth-www
+    - IMAGE1="$DOCKER_USER""/ifth-url"
+    - IMAGE2="$DOCKER_USER""/ifth-www"
     - VERSION=1.0.1
 
 script:
