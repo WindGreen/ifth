@@ -33,7 +33,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ifth.InitSlotGenerator(config.Url.Length)
+	ifth.InitSlotGenerator(config.Url.Length, config.Url.Algorithm, config.Url.Humanity)
+
 	_, err = ifth.InitMgo(config.MongoDB.Host)
 	if err != nil {
 		log.Fatal(err)

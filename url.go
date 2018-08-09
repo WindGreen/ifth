@@ -1,7 +1,6 @@
 package ifth
 
 import (
-	"log"
 	"time"
 
 	"github.com/globalsign/mgo/bson"
@@ -147,6 +146,5 @@ func (u *Url) Expired() bool {
 func (u *Url) Save() error {
 	session := GetMgo()
 	_, err := session.DB("ifth").C("url").Upsert(bson.M{"slot": u.Slot}, u)
-	log.Println(err)
 	return err
 }
