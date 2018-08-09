@@ -8,7 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>短链接</title>
+    <title>短链接-Short Url</title>
+    <meta content="长地址转短地址服务，长链接转短链接服务。Convert long url to short url." name="description">
     <style>
         html,body{
             height: 100%;
@@ -69,7 +70,7 @@
                 <h4 class="text-center">Hottest</h4>
                 <ul>
                     {{range .Hottest}}
-                    <li><a href="{{.Url}}" target="blank">[{{.Count}}]{{.Url}}</a>></li>
+                    <li><a href="{{.Url}}" target="blank">[{{.Count}}]{{.Url}}</a></li>
                     {{end}}
                 </ul>
             </div>

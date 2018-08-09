@@ -7,5 +7,7 @@ www:
 # url service
 url:
   base: http://localhost/%s
-  length: 3
-  unique: true
+  length: 1
+  unique: false
+  humanity: false
+  algorithm: 1 # 0 - random string; 1 - auto increment 
