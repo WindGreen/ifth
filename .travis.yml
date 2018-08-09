@@ -13,7 +13,7 @@ env:
   global:
     - IMAGE1="$DOCKER_USER""/ifth-url"
     - IMAGE2="$DOCKER_USER""/ifth-www"
-    - VERSION=1.0.2
+    - VERSION=1.0.3beta
 
 before_install:
   - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
