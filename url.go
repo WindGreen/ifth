@@ -70,6 +70,7 @@ func NewCustomUrl(slot, origin string) *Url {
 
 func FindUrlByOrigin(origin string) (*Url, error) {
 	session := GetMgo()
+	defer session.Close()
 	var url Url
 	err := session.DB("ifth").C("url").Find(bson.M{"origin": origin}).One(&url)
 	if err != nil {
@@ -80,6 +81,7 @@ func FindUrlByOrigin(origin string) (*Url, error) {
 
 func FindUrlBySlot(slot string) (*Url, error) {
 	session := GetMgo()
+	defer session.Close()
 	var url Url
 	err := session.DB("ifth").C("url").Find(bson.M{"slot": slot}).One(&url)
 	if err != nil {
@@ -92,6 +94,7 @@ func FindUrlBySlot(slot string) (*Url, error) {
 
 func FindHottestUrls(limit int) ([]Url, error) {
 	session := GetMgo()
+	defer session.Close()
 	var urls []Url
 	err := session.DB("ifth").C("url").Find(bson.M{}).Sort("-count").Limit(limit).All(&urls)
 	if err != nil {
@@ -102,6 +105,7 @@ func FindHottestUrls(limit int) ([]Url, error) {
 
 func FindNewestUrls(limit int) ([]Url, error) {
 	session := GetMgo()
+	defer session.Close()
 	var urls []Url
 	err := session.DB("ifth").C("url").Find(bson.M{}).Sort("-_id").Limit(limit).All(&urls)
 	if err != nil {
@@ -112,6 +116,7 @@ func FindNewestUrls(limit int) ([]Url, error) {
 
 func OriginExist(origin string) bool {
 	session := GetMgo()
+	defer session.Close()
 	ct, err := session.DB("ifth").C("url").Find(bson.M{"origin": origin}).Count()
 	if err != nil {
 		return false //may cause problem?
@@ -124,6 +129,7 @@ func OriginExist(origin string) bool {
 
 func SlotExist(slot string) bool {
 	session := GetMgo()
+	defer session.Close()
 	ct, err := session.DB("ifth").C("url").Find(bson.M{"slot": slot}).Count()
 	if err != nil {
 		return false //may cause problem?
@@ -145,6 +151,7 @@ func (u *Url) Expired() bool {
 
 func (u *Url) Save() error {
 	session := GetMgo()
+	defer session.Close()
 	_, err := session.DB("ifth").C("url").Upsert(bson.M{"slot": u.Slot}, u)
 	return err
 }
