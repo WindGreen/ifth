@@ -6,7 +6,7 @@
 
 [English Document](README.md)
 
-演示地址：http://www.ifth.net
+演示地址：
 
 ![example](ifth-www.png)
 
